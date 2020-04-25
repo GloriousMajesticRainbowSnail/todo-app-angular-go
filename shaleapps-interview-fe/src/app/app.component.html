@@ -1,6 +1,28 @@
-<div id="header-section">
-  <h1 class="h1">Shale Apps Interview: Todo app</h1>
-  <h2 class="h4">
-    A quick-and-dirty todo app to demonstrate full-stack proficiency
-  </h2>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col text-center">
+      <div id="header-section">
+        <h1 class="h4">Shale Apps Interview</h1>
+        <h2 class="h5">
+          A quick-and-dirty todo app to demonstrate full-stack proficiency
+        </h2>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <app-todo-creator
+      class="col-12 my-3"
+      (created)="onTodoCreated($event)"
+    ></app-todo-creator>
+  </div>
+
+  <div class="row" *ngIf="todo$ | async as todos">
+    <app-todo-item
+      class="col-12 mb-3"
+      *ngFor="let todo of todos"
+      [todo]="todo"
+      (toggled)="onTodoToggled($event)"
+    ></app-todo-item>
+  </div>
 </div>

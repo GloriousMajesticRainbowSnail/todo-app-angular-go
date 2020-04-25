@@ -16,6 +16,8 @@ type Todo struct {
 // Todos is a list of dummy todos (until database is connected)
 var Todos []Todo
 
+var folderDist = "fe-bundle"
+
 func initDummyData() {
 	Todos = []Todo{
 		Todo{Name: "Item 1", IsComplete: false},
@@ -27,20 +29,14 @@ func printEndpoint(r *http.Request, msg string) {
 	fmt.Println("Endpoint hit: " + msg + ", request URI: " + r.RequestURI)
 }
 
-func showDefault(w http.ResponseWriter, r *http.Request) {
-	printEndpoint(r, "showDefault") // prints twice - one for /, one for favicon
-	fmt.Fprintf(w, "The server is running.")
-}
-
 func returnAllTodos(w http.ResponseWriter, r *http.Request) {
 	printEndpoint(r, "returnAllTodos")
 	json.NewEncoder(w).Encode(Todos)
 }
 
 func handleRequests() {
-	http.HandleFunc("/", showDefault)
-	http.HandleFunc("/todos", returnAllTodos)
-	log.Fatal(http.ListenAndServe(":8081", nil))
+	http.HandleFunc("/api/todos", returnAllTodos)
+	log.Fatal(http.ListenAndServe(":8081", http.FileServer(http.Dir(folderDist))))
 }
 
 func main() {
