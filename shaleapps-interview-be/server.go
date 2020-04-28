@@ -5,7 +5,7 @@ import (
 	"fmt"           // used to write output
 	"log"           // logging
 	"net/http"      // used to handle http req/res
-	"strconv"       // used for converting primitives to string
+	// used for converting primitives to string
 )
 
 const folderDist = "../fe-bundle"
@@ -24,21 +24,20 @@ func createTodosHandler() (func(w http.ResponseWriter, r *http.Request), func())
 		// See comment at end-of-file
 		switch r.Method {
 		case "GET":
-			fmt.Println("get reached")
 			// Assume "GET /todos" is retrieving all TODOs
 			todos := db.GetAllTodos()
 			json.NewEncoder(w).Encode(todos)
 		case "PUT":
 			// Assume "PUT /todos" is updating the provided TODO
-			var b = parseTodo(r)
-			fmt.Println("updated " + strconv.Itoa(b.ID))
-			json.NewEncoder(w).Encode(b)
+			var updated = parseTodo(r)
+			updated = db.UpdateTodo(updated)
+			json.NewEncoder(w).Encode(updated)
 			break
 		case "POST":
 			// Assume "POST /todos" is creating the provided TODO
-			var b = parseTodo(r)
-			fmt.Println("created todo for " + b.Description)
-			json.NewEncoder(w).Encode(b)
+			var newTodo = parseTodo(r)
+			newTodo = db.CreateTodo(newTodo)
+			json.NewEncoder(w).Encode(newTodo)
 		}
 	}, db.Close
 }

@@ -20,19 +20,17 @@ type DbWrapper struct {
 // NewDbWrapper is the factory method (constructor) for DbWrapper
 func NewDbWrapper() *DbWrapper {
 	dw := new(DbWrapper)
-	dw.username = "root"
-	dw.password = "magicbus"
+	dw.username = "TodoUser"
+	dw.password = "67Gh4cXtydkfL%$"
 	dw.ip = "127.0.0.1"
 	dw.port = "3306"
 	dw.database = "TodoDb"
-	dw.connection = nil
 	return dw
 }
 
 // Connect establishes the database connection - must be called prior to use
 func (dw *DbWrapper) Connect() {
 	connString := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s", dw.username, dw.password, dw.ip, dw.port, dw.database)
-	fmt.Println(connString)
 	var err error
 	dw.connection, err = sql.Open("mysql", connString)
 	if err != nil {
@@ -48,7 +46,6 @@ func (dw *DbWrapper) Close() {
 
 // GetAllTodos retrieves the full list of todos
 func (dw DbWrapper) GetAllTodos() []Todo {
-	fmt.Println("GetAllTodos reached")
 	var todosList []Todo
 
 	// SELECT Id, TaskDescription, IsComplete FROM Todos;
@@ -57,8 +54,6 @@ func (dw DbWrapper) GetAllTodos() []Todo {
 		fmt.Println("Failed to retrieve todos")
 		panic(err.Error()) // can't really do much if this fails
 	}
-
-	fmt.Println("starting results iteration")
 
 	for results.Next() {
 		var todo Todo
@@ -69,5 +64,16 @@ func (dw DbWrapper) GetAllTodos() []Todo {
 
 		todosList = append(todosList, todo)
 	}
+
 	return todosList
+}
+
+// UpdateTodo persists changes to an individual todo
+func (dw DbWrapper) UpdateTodo(todo Todo) Todo {
+	return todo
+}
+
+// CreateTodo persists a new todo
+func (dw DbWrapper) CreateTodo(todo Todo) Todo {
+	return todo
 }

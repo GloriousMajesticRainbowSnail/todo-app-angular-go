@@ -1,5 +1,8 @@
+-- Create database
 DROP DATABASE IF EXISTS TodoDb;
 CREATE DATABASE TodoDb;
+
+-- Create table for todos app
 USE TodoDb;
 CREATE TABLE Todos (
 	Id INT NOT NULL AUTO_INCREMENT,
@@ -23,4 +26,7 @@ INSERT INTO Todos (
 ( 'Deploy solution', FALSE ),
 ( 'Submit assignment', FALSE );
 
-SELECT Id, TaskDescription, IsComplete FROM Todos;
+-- Create user for todos app
+DROP USER IF EXISTS 'TodoUser'@'localhost';
+CREATE USER 'TodoUser'@'localhost' IDENTIFIED BY '67Gh4cXtydkfL%$';
+GRANT INSERT, SELECT, UPDATE ON TodoDb.Todos TO 'TodoUser'@'localhost';
