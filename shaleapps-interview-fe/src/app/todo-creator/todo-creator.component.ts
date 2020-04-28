@@ -10,11 +10,14 @@ export class TodoCreatorComponent implements OnInit {
   @Output()
   created = new EventEmitter<TodoModel>();
 
+  description = '';
+
   constructor() {}
 
   ngOnInit(): void {}
 
-  todoCreated(description: string) {
-    this.created.emit(new TodoModel({ Description: description }));
+  todoCreated() {
+    this.created.emit(new TodoModel({ Description: this.description }));
+    this.description = '';
   }
 }

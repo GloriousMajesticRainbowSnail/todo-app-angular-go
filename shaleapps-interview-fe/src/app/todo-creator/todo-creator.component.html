@@ -3,9 +3,11 @@
     type="text"
     class="form-control"
     placeholder="What would you like to do?"
+    [(ngModel)]="description"
+    (keyup.enter)="todoCreated()"
   />
   <div class="input-group-append">
-    <button class="btn btn-primary" type="button" (click)="todoCreated('test')">
+    <button class="btn btn-primary" type="button" (click)="todoCreated()">
       Create
     </button>
   </div>
