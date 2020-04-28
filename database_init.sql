@@ -16,6 +16,7 @@ INSERT INTO Todos (
 ( 'Serve the SPA from the server', TRUE ),
 ( 'Initialize the database', TRUE ),
 ( 'Connect to the database from the server', FALSE ),
+( 'Create a dedicated database user for the application', FALSE ),
 ( 'Implement the first end-to-end feature', FALSE ),
 ( 'Implement the remaining functionality', FALSE ),
 ( 'Set up Docker', FALSE ),
