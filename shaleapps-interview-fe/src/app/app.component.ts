@@ -20,10 +20,8 @@ export class AppComponent {
     this.todo$ = change.pipe(switchMap(() => this.service.getAllTodos()));
   }
 
-  onTodoCreated(description: string) {
-    this.refreshTodos(
-      this.service.createTodo(new TodoModel({ Description: description }))
-    );
+  onTodoCreated(todo: TodoModel) {
+    this.refreshTodos(this.service.createTodo(todo));
   }
 
   onTodoToggled(todo: TodoModel) {

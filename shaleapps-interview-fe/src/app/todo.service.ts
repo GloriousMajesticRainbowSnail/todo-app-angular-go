@@ -19,6 +19,6 @@ export class TodoService {
   }
 
   updateTodo(todo: TodoModel) {
-    return this.http.put(`todos/${todo.Id}`, todo);
+    return this.http.put('todos', todo);
   }
 }
