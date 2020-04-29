@@ -5,7 +5,7 @@ CREATE DATABASE TodoDb;
 -- Create table for todos app
 USE TodoDb;
 CREATE TABLE Todos (
-	Id INT NOT NULL AUTO_INCREMENT,
+    Id INT NOT NULL AUTO_INCREMENT,
     TaskDescription VARCHAR(1000) NOT NULL,
     IsComplete BOOL NOT NULL,
     PRIMARY KEY (Id)
