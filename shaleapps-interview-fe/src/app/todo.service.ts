@@ -1,8 +1,7 @@
-import { Injectable } from '@angular/core';
-import { TodoModel } from './todo.model';
-import { Observable, of } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+import { TodoModel } from './todo.model';
 
 @Injectable({
   providedIn: 'root',
@@ -19,6 +18,10 @@ export class TodoService {
   }
 
   updateTodo(todo: TodoModel) {
-    return this.http.put('todos', todo);
+    return this.http.put<TodoModel>('todos', todo);
+  }
+
+  removeTodo(todo: TodoModel) {
+    return this.http.delete<TodoModel>(`todos?id=${todo.Id}`);
   }
 }

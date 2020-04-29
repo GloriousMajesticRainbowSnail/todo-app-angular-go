@@ -18,10 +18,10 @@ INSERT INTO Todos (
 ( 'Initialize the Angular SPA', TRUE ),
 ( 'Serve the SPA from the server', TRUE ),
 ( 'Initialize the database', TRUE ),
-( 'Connect to the database from the server', FALSE ),
-( 'Create a dedicated database user for the application', FALSE ),
-( 'Implement the first end-to-end feature', FALSE ),
-( 'Implement the remaining functionality', FALSE ),
+( 'Connect to the database from the server', TRUE ),
+( 'Create a dedicated database user for the application', TRUE ),
+( 'Implement the first end-to-end feature', TRUE ),
+( 'Implement the remaining functionality', TRUE ),
 ( 'Set up Docker', FALSE ),
 ( 'Deploy solution', FALSE ),
 ( 'Submit assignment', FALSE );
@@ -29,4 +29,4 @@ INSERT INTO Todos (
 -- Create user for todos app
 DROP USER IF EXISTS 'TodoUser'@'localhost';
 CREATE USER 'TodoUser'@'localhost' IDENTIFIED BY '67Gh4cXtydkfL%$';
-GRANT INSERT, SELECT, UPDATE ON TodoDb.Todos TO 'TodoUser'@'localhost';
+GRANT INSERT, SELECT, UPDATE, DELETE ON TodoDb.Todos TO 'TodoUser'@'localhost';

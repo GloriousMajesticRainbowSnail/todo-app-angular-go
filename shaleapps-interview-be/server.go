@@ -2,9 +2,11 @@ package main
 
 import (
 	"encoding/json" // used to serialize/deserialize json req/res
-	"fmt"           // used to write output
-	"log"           // logging
-	"net/http"      // used to handle http req/res
+	"errors"
+	"fmt"      // used to write output
+	"log"      // logging
+	"net/http" // used to handle http req/res
+	"strconv"
 	// used for converting primitives to string
 )
 
@@ -14,6 +16,12 @@ func parseTodo(r *http.Request) Todo {
 	var body Todo
 	json.NewDecoder(r.Body).Decode(&body)
 	return body
+}
+
+func errorHandler(w http.ResponseWriter, statusCode int, err error, resMsg string) {
+	w.WriteHeader(statusCode)
+	fmt.Fprint(w, resMsg)
+	fmt.Println(err.Error())
 }
 
 func createTodosHandler() (func(w http.ResponseWriter, r *http.Request), func()) {
@@ -38,6 +46,25 @@ func createTodosHandler() (func(w http.ResponseWriter, r *http.Request), func())
 			var newTodo = parseTodo(r)
 			newTodo = db.CreateTodo(newTodo)
 			json.NewEncoder(w).Encode(newTodo)
+			break
+		case "DELETE":
+			// Use query parameter to identify the TODO to delete
+			idString := r.URL.Query().Get("id")
+			if idString == "" {
+				errorHandler(w, http.StatusBadRequest, errors.New("Invalid ID string: "+idString), "Unable to delete: no ID provided")
+			}
+
+			id, err := strconv.Atoi(idString)
+			if id <= 0 || err != nil {
+				errorHandler(w, http.StatusBadRequest, err, "Unable to delete: invalid ID")
+			}
+
+			id, err = db.RemoveTodo(id)
+			if err != nil {
+				errorHandler(w, http.StatusInternalServerError, err, "Failed to delete id: "+idString)
+			}
+
+			json.NewEncoder(w).Encode(id)
 		}
 	}, db.Close
 }

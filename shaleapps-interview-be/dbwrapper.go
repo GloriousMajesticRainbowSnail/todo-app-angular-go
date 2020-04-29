@@ -118,3 +118,32 @@ func (dw DbWrapper) CreateTodo(todo Todo) Todo {
 
 	return todo
 }
+
+// RemoveTodo deletes the todo with the given ID
+func (dw DbWrapper) RemoveTodo(id int) (int, error) {
+	/*
+		DELETE FROM Todos WHERE Id = {id};
+	*/
+	stmt, err := dw.dbHandle.Prepare("DELETE FROM Todos WHERE Id=?")
+	if err != nil {
+		return -1, err
+	}
+	results, err := stmt.Exec(id)
+	if err != nil {
+		return -1, err
+	}
+	affected, err := results.RowsAffected()
+	if err != nil {
+		return -1, err
+	}
+
+	if affected < 1 {
+		return -1, errors.New("Delete failed: no rows affected")
+	}
+
+	if affected > 1 {
+		return -1, errors.New("Delete failed: multiple rows affected")
+	}
+
+	return id, nil
+}

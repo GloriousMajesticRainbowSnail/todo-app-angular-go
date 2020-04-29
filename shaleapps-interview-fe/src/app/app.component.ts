@@ -1,8 +1,6 @@
 import { Component } from '@angular/core';
 import { TodoModel } from './todo.model';
 import { TodoService } from './todo.service';
-import { Observable, of } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-root',
@@ -10,21 +8,25 @@ import { switchMap } from 'rxjs/operators';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
-  todo$: Observable<TodoModel[]>;
+  todoList: TodoModel[] = [];
 
   public constructor(private service: TodoService) {
-    this.refreshTodos(of(null));
+    this.getAllTodos();
   }
 
-  refreshTodos(change: Observable<any>) {
-    this.todo$ = change.pipe(switchMap(() => this.service.getAllTodos()));
+  getAllTodos() {
+    this.service.getAllTodos().subscribe((todos) => (this.todoList = todos));
   }
 
   onTodoCreated(todo: TodoModel) {
-    this.refreshTodos(this.service.createTodo(todo));
+    this.service.createTodo(todo).subscribe(() => this.getAllTodos());
   }
 
   onTodoToggled(todo: TodoModel) {
-    this.refreshTodos(this.service.updateTodo(todo));
+    this.service.updateTodo(todo).subscribe(() => this.getAllTodos());
+  }
+
+  onTodoRemoved(todo: TodoModel) {
+    this.service.removeTodo(todo).subscribe(() => this.getAllTodos());
   }
 }
