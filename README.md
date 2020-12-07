@@ -25,10 +25,9 @@ The included SQL scripts are written for MySQL and assume root-level access to a
 
 - Authentication/users are not implemented; everyone can see the same set of TODOs.
 - Configuration for database connection et. al. has not been implemented.
-- No Dockerfile; I haven't learned Docker yet, and was under time pressure to get this coded and deployed. I will likely come back to this in the near future, since Docker seems to be pretty great for DevOps.
-- No unit-testing; this would be of dubious value for a project of this size/scale, although I could be convinced that test-driven development would be/have been helpful for driving the design.
-- No transactions have been implemented for the database queries, which is a potential source of bugs and data loss. I didn't take the time to implement this because I wasn't sure if I wanted to write some stored procedures for this or try to execute transactions directly from the Go/MySQL package, and I wanted to move quickly. 
-- The Go code is generally messy and fairly disorganized; I would like to spend some time refactoring this and aligning with best practices for Go, and I have a lot of learning to do on that front.
+- No unit-testing; this was implemented as a learning/exploratory prototype. I'm otherwise generally in favour of test-driven development.
+- No transactions have been implemented for the database queries, which is a potential source of bugs and data loss. I didn't take the time to implement this because this is a quick-and-dirty learning project.
+- The Go code is generally messy and fairly disorganized; I would like to spend some time refactoring this and aligning with best practices for Go, which I'm still learning.
 - Todo description text breaks out of the styling container if it's too long/if the container is too narrow. This is especially obvious on mobile. I haven't looked into this yet, but it's default Bootstrap behaviour so I assume configuration/overriding would be required.
 - As noted in the `server.go` file, the REST API implementation is hacky and falls short of best-practice for REST API design:
 ``` golang
